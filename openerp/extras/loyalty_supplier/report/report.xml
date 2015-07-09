@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="report_loyalty" model="ir.actions.report.xml">
+        <field name="name">report.report_loyalty</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">res.partner</field>
+        <field name="report_name">report_loyalty</field>
+        <field name="report_rml">loyalty_supplier/report/report_loyalty.jrxml</field>
+        <field name="report_type">pdf</field>
+        <field name="jasper_report">True</field>
+        <field name="jasper_output">pdf</field>
+    </record>
+</data>
+</openerp>

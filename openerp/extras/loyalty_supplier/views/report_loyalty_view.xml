@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_loyalty_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="row">
+                <div class="col-xs-5 col-xs-offset-7">
+                    <span t-field="o.partner_id.name"/>
+
+                </div>
+            </div>
+
+
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Fecha De Movimiento</th>
+                        <th>Movimiento</th>
+                        <th class="text-right">Puntos</th>
+
+                    </tr>
+                </thead>
+                <tbody class="invoice_tbody">
+                    <tr t-foreach="o.loyalty_supplier" t-as="l">
+
+
+                       <span t-field="l.puntos"/>
+
+                    </tr>
+                     <tr t-foreach="o.sale_order_id" t-as="l">
+
+
+                       <span t-field="l.create_date"/>
+
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+    </t>
+</template>
+
+<template id="report_loyalty">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'loyalty_supplier.report_loyalty_document')"/>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

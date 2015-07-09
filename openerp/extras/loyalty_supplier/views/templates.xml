@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="modal_warning" name="Warning">
+
+
+               <script>
+
+                   window.alert("Usted No Tine Suficientes Puntos para realizar la compra");
+                   document.location=('/shop/cart');
+
+               </script>
+
+
+</template>
+
+
+  <template id="header_inherit" inherit_id="website.layout" name="Header Shop My Cart Link">
+  <xpath expr="//header//ul[@id='top_menu']/li" position="after">
+      <li>
+          <a href="/shop">
+              
+              <t t-call="website_sale.total_puntos"/>
+          </a>
+      </li>
+
+  </xpath>
+</template>
+
+
+
+</data>
+</openerp>

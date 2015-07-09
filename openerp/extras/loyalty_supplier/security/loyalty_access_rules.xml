@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data noupdate="0">
+		<record id="loyalty_supplier_user_rule" model="ir.rule">
+			<field name="name">Fidelizacion de Clientes Solamente el Propietario</field>
+			<field name="model_id" ref="model_loyalty_supplier" />
+			<field name="domain_force">[('create_uid','=',user_id)]</field>
+			<field name="groups" eval="[4,ref('base.group_user')]" />
+		</record>
+	</data>
+</openerp>

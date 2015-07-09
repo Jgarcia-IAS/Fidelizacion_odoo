@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_form_loyalty_supplier" model="ir.ui.view">
+			<field name="name">Formulario De Fidelizacion de Clientes</field>
+			<field name="model">loyalty.supplier</field>
+			<field name="arch" type="xml" >
+				<form string="Fidelizacion De Clientes">
+					<header>
+
+					</header>
+					<sheet>
+						<group name="group_top">
+							<group name="group_left">
+								<field name="partner_id" string="Cliente"/>
+                                <field name="product_id" string="Producto" domain="[('sale_ok','!=','True')]"/>
+							</group>
+							<group name="group_right">
+								<field name="sale_date" />
+								<field name="sale_arch" readonly="1"/>
+                                <field name="puntos" readonly="1" string="Puntos"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+        <record id="view_tree_loyalty_supplier" model="ir.ui.view">
+			<field name="name">Fidelizacion de Clientes Tree</field>
+			<field name="model">loyalty.supplier</field>
+			<field name="arch" type="xml" >
+				<tree>
+					<field name="partner_id" string="Cliente"/>
+                    <field name="product_id" string="Producto" />
+                    <field name="sale_date" />
+                    <field name="sale_arch" readonly="1"/>
+                    <field name="puntos" readonly="1" string="Puntos"/>
+				</tree>
+			</field>
+		</record>
+
+       <act_window  id="action_loyalty_supplier"
+                    name="Fidelizacion"
+                    res_model="loyalty.supplier"
+                    view_mode="tree,form" />
+
+        <act_window  id="action_res_partner"
+                    name="Clientes"
+                    res_model="res.partner"
+                    view_mode="kanban,tree,form" />
+        
+        <act_window  id="action_product_template"
+                    name="Productos"
+                    res_model="product.template"
+                    view_mode="kanban,tree,form" />
+
+
+        <record model="ir.ui.view" id="product_template_form_view_inherinted">
+            <field name="name">product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <field name="list_price" position="replace">
+                    <group name="loyalty" string="Puntos por fidelidad">
+
+                        <field name="list_price" string="Puntos Extra de Fidelidad" />
+                    </group>
+                </field>
+            </field>
+        </record>
+
+
+
+        <record model="ir.ui.view" id="res_partner_form_view">
+            <field name="name">res.partner.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="category_id" position="after">
+                    <group name="loyalty" string="Puntos por fidelidad">
+
+                        <field name="loyalty_points" string="Puntos" />
+                    </group>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="product_template_kanban_view" model="ir.ui.view">
+            <field name="name">Product.template.product.kanban</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="image_small"/>
+                    <field name="lst_price"/>
+                    <field name="is_product_variant"/>
+                    <field name="product_variant_count"/>
+                    <field name="product_variant_ids"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_vignette oe_semantic_html_override">
+                                <a type="open"><img t-att-src="kanban_image('product.template', 'image_small', record.id.value)" class="oe_kanban_image"/></a>
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open">
+                                             <span t-if="record.default_code.value">
+                                                 [<field name="default_code"/>]
+                                              </span>
+                                             <field name="name"/>
+                                        </a>
+                                    </h4>
+                                    <a name="%(product.product_variant_action)d" type="action" />
+
+
+                                    <div name="tags"/>
+                                    <ul>
+                                        <li>Puntos: <field name="lst_price"></field></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+    <report
+    id="Reporte_Puntos"
+    model="loyalty.supplier"
+    string="Redecion de Puntos"
+    report_type="qweb-pdf"
+    name="loyalty_supplier.report_loyalty"
+
+    />
+
+
+
+
+
+
+
+
+
+    <menuitem name="Fidelización Clientes" id="loyalty_supplier_id" />
+    <menuitem name="Fidelización Clientes" parent="loyalty_supplier_id" id="menu_proveedor" />
+    <menuitem name="Clientes" parent="menu_proveedor" id="menu_form_cliente" action="action_res_partner" />
+    <menuitem name="Productos"  parent="menu_proveedor" id="menu_form_producto" action="action_product_template" />
+    <menuitem name="Cargar Datos" parent="menu_proveedor" id="menu_form_datos" action="action_loyalty_supplier" />
+    |
+    </data>
+</openerp>
+
+
+
+
+
+
+
